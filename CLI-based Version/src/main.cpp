@@ -1,23 +1,24 @@
-#include "functions.hpp"
+#include "network.h"
+#include <iostream>
+#include <string>
 
-int main () 
-{
-	Network network;
-	string command;
-	while ( command != "quit" ) { 
-		cout << "you need to signup/login to us the system" << endl << "your command:" ;
-		cin >> command ;
-		try { 
-			network.choose_action (command) ;
-		}
-		catch ( string exception ) {
-			if ( exception == "logout" ) {
-				cout << "you got logged out" << endl;
-				continue ;
-			}
-			cout << "wrong command.PLease try again:" << endl;
-			continue;
-		}
-	}
-	return 0;
+int main() {
+  Network network;
+  std::string command;
+  while (command != "quit") {
+    std::cout << "you need to signup/login to us the system" << std::endl
+         << "your command:";
+    std::cin >> command;
+    try {
+      network.choose_action(command);
+    } catch (std::string exception) {
+      if (exception == "logout") {
+        std::cout << "you got logged out" << std::endl;
+        continue;
+      }
+      std::cout << "wrong command.PLease try again:" << std::endl;
+      continue;
+    }
+  }
+  return 0;
 }

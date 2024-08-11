@@ -22,7 +22,7 @@ void Jeek::show_full_info() {
     std::cout << comments[i]->get_id() << std::endl;
 }
 
-void Jeek::set_features(std::string jeek_text, std::string id,
+void Jeek::set_features(const std::string &jeek_text, const std::string &id,
                         User *jeek_author) {
   this->set_text(jeek_text);
   Id = id;
@@ -31,8 +31,8 @@ void Jeek::set_features(std::string jeek_text, std::string id,
   rejeek_number = 0;
 }
 
-void Jeek::add_comment(Comment *new_comment) {
-  comments.push_back(new_comment);
+void Jeek::add_comment(Comment *comment) {
+  comments.push_back(comment);
 }
 
 std::string Jeek::get_text() { return text; }
@@ -78,27 +78,21 @@ void Jeek::show_after_search() {
             << std::endl;
 }
 
-void Jeek::mention(std::string content, std::vector<User *> &all_users,
-                   User *mentioner) {
-  if (find_user(content, "", all_users) < 0) {
-    std::cout << "user you wanted to mention doesn't exist" << std::endl;
-    return;
-  }
-  User *mentioned_user = all_users[find_user(content, "", all_users)];
-  mentions.push_back(mentioned_user);
-  mentioned_user->add_notifications(mentioner->get_username() +
-                                    " mentioned you in " + this->get_id());
+void Jeek::mention(User *mentioner, User *mentioned) {
+  mentions.push_back(mentioned);
+  mentioned->add_notifications(mentioner->get_username() +
+                               " mentioned you in " + this->get_id());
 }
 
-void Jeek::add_a_hashtag(std::string content, Network &network) {
-  if (network.find_hashtag(content) == nullptr) {
-    Hashtag *new_hashtag = new Hashtag();
+void Jeek::add_a_hashtag(const std::string &content, Network *network) {
+  if (network->find_hashtag(content) == nullptr) {
+    auto *new_hashtag = new Hashtag();
     new_hashtag->set_text(content);
     new_hashtag->add_jeek(*this);
     hashtags.push_back(new_hashtag);
-    network.add_hashtag(new_hashtag);
+    network->add_hashtag(new_hashtag);
   } else {
-    Hashtag *hashtag = network.find_hashtag(content);
+    Hashtag *hashtag = network->find_hashtag(content);
     hashtag->add_jeek(*this);
     hashtags.push_back(hashtag);
   }
@@ -107,3 +101,19 @@ void Jeek::add_a_hashtag(std::string content, Network &network) {
 int Jeek::get_like_number() { return like_number; }
 
 int Jeek::get_rejeek_number() { return rejeek_number; }
+
+std::string Jeek::get_tags_formatted() {
+  std::string formatted_tags;
+  for (auto hashtag : hashtags) {
+    formatted_tags += "#" + hashtag->get_text() + " ";
+  }
+  return formatted_tags;
+}
+
+std::string Jeek::get_mentions_formatted() {
+  std::string formatted_mentions;
+  for (auto mention : mentions) {
+    formatted_mentions += "@" + mention->get_username() + " ";
+  }
+  return formatted_mentions;
+}

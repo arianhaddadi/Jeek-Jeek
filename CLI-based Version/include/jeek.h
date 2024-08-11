@@ -9,12 +9,12 @@ class Jeek {
 public:
   std::string get_text();
   void set_text(std::string content);
-  void mention(std::string, std::vector<User *> &users, User *);
-  void add_a_hashtag(std::string, Network &);
+  void mention(User *mentioner, User *mentioned);
+  void add_a_hashtag(const std::string &content, Network *network);
   void show_after_search();
-  void add_comment(Comment *);
+  void add_comment(Comment *comment);
   std::string get_id();
-  void set_rejeek(User *, Jeek *);
+  void set_rejeek(User *rejeeker, Jeek *rejeeked_jeek);
   std::vector<Hashtag *> get_hashtags();
   std::vector<User *> get_mentions();
   void add_rejeek_number();
@@ -22,9 +22,12 @@ public:
   void get_liked();
   void get_disliked();
   User *get_author();
-  void set_features(std::string, std::string, User *);
+  void set_features(const std::string &jeek_text, const std::string &id,
+                    User *jeek_author);
   int get_like_number();
   int get_rejeek_number();
+  std::string get_tags_formatted();
+  std::string get_mentions_formatted();
 
 private:
   User *author;

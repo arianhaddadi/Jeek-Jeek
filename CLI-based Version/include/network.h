@@ -22,18 +22,19 @@ public:
   void search_users(std::string);
   void search_hashtags(std::string);
   void add_jeeks(Jeek *);
-  std::vector<Jeek *> get_jeeks();
-  std::vector<Comment *> get_comments();
   void add_comment(Comment *);
   void add_reply(Reply *);
-  Reply *find_reply(std::string id);
   std::vector<Reply *> get_replies();
   User *user_exists(std::string, std::string);
   void set_user(User *);
   void add_user(std::string, std::string, std::string);
-  User *get_current_user();
   std::vector<User *> get_users();
-  Hashtag* find_hashtag(std::string content);
+  Hashtag* find_hashtag(const std::string &content);
+  Jeek * find_jeek(const std::string &jeek_id);
+  Comment * find_comment(const std::string &comment_id);
+  Reply *find_reply(const std::string &id);
+  User *find_user(const std::string &username, const std::string &password);
+  User *find_user_by_session_id(const std::string &id);
 
 private:
   User *current_user;

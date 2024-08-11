@@ -11,9 +11,9 @@ public:
   std::string get_username();
   std::string get_password();
   std::string get_display_name();
-  void add_jeek(std::vector<User *> &users, Network &);
-  void add_comment(Network &);
-  void add_reply(Network &);
+  void add_jeek(Network *);
+  void add_comment(Network *network);
+  void add_reply(Network *network);
   void show_notifications();
   void show_jeeks();
   void add_rejeeks(Jeek *);

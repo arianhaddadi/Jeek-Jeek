@@ -18,40 +18,34 @@ std::string User::get_username() { return username; }
 
 std::vector<Reply *> User::get_replies() { return replies; }
 
-void User::add_reply(Network &network) {
+void User::add_reply(Network *network) {
   std::string comment_id, content;
   std::cin >> comment_id >> content;
-  Comment *the_comment = find_comment(comment_id, network);
-  Reply *the_reply = find_reply(comment_id, network);
+  Reply *the_reply = network->find_reply(comment_id);
   if (the_reply == nullptr) {
     std::cout << "comment/reply not found" << std::endl;
     return;
   }
-  Reply *new_reply = new Reply();
+  auto *new_reply = new Reply();
   new_reply->set_features(this, content);
   replies.push_back(new_reply);
-  network.add_reply(new_reply);
-  if (the_reply == nullptr) {
-    the_comment->add_reply(new_reply);
-    the_comment->get_author()->add_notifications(
-        this->get_username() + " replied " + the_comment->get_id());
-  } else
-    the_reply->add_reply(new_reply);
-  std::cout << "reply succeesully posted" << std::endl;
+  network->add_reply(new_reply);
+  the_reply->add_reply(new_reply);
+  std::cout << "reply successfully posted" << std::endl;
 }
 
-void User::add_comment(Network &network) {
+void User::add_comment(Network *network) {
   std::string jeek_id, content;
   std::cin >> jeek_id >> content;
-  Jeek *jeek = find_jeek(jeek_id, network);
+  Jeek *jeek = network->find_jeek(jeek_id);
   if (jeek == nullptr) {
     std::cout << "the jeek you wanted to comment on doesn't exist" << std::endl;
     return;
   }
-  Comment *new_comment = new Comment();
+  auto *new_comment = new Comment();
   new_comment->set_features(content, username + std::to_string(comments.size()),
                             this);
-  network.add_comment(new_comment);
+  network->add_comment(new_comment);
   comments.push_back(new_comment);
   jeek->add_comment(new_comment);
   jeek->get_author()->add_notifications(this->get_username() +
@@ -59,33 +53,39 @@ void User::add_comment(Network &network) {
   std::cout << "comment successfully posted" << std::endl;
 }
 
-void User::add_jeek(std::vector<User *> &users, Network &network) {
-  std::string command = "", content = "";
+void User::add_jeek(Network *network) {
+  std::string command, content;
   Jeek *new_jeek = new Jeek();
   new_jeek->set_features("", username + std::to_string(jeeks.size()), this);
   while (command != "publish" && command != "abort") {
     std::cin >> command;
     if (command == "text") {
       getline(std::cin, content);
-      if (content.size() == 0)
+      if (content.empty())
         continue;
       content.erase(content.begin());
       new_jeek->set_text(content);
     } else if (command == "tag") {
       getline(std::cin, content);
-      if (content.size() == 0)
+      if (content.empty())
         continue;
       content.erase(content.begin());
       new_jeek->add_a_hashtag(content, network);
     } else if (command == "mention") {
       getline(std::cin, content);
-      if (content.size() == 0)
+      if (content.empty()) {
         continue;
+      }
       content.erase(content.begin());
-      new_jeek->mention(content, users, this);
+      User *user = network->find_user(content, "");
+      if (user == nullptr) {
+        std::cout << "user you wanted to mention doesn't exist" << std::endl;
+        return;
+      }
+      new_jeek->mention(this, user);
     }
   }
-  if (command == "abort" || new_jeek->get_text() == "") {
+  if (command == "abort" || new_jeek->get_text().empty()) {
     std::cout
         << "adding jeek failed due to not having any text or entering abort "
            "command by user "
@@ -93,7 +93,7 @@ void User::add_jeek(std::vector<User *> &users, Network &network) {
     return;
   }
   jeeks.push_back(new_jeek);
-  network.add_jeeks(new_jeek);
+  network->add_jeeks(new_jeek);
   add_notifications_for_followers_after_jeek();
   std::cout << "jeek successfully published" << std::endl;
 }

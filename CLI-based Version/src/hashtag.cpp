@@ -1,7 +1,7 @@
 #include "hashtag.h"
 #include "jeek.h"
-#include <vector>
 #include <string>
+#include <vector>
 
 void Hashtag::add_jeek(Jeek &jeek) {
   Jeek *new_jeek = &jeek;
@@ -9,12 +9,13 @@ void Hashtag::add_jeek(Jeek &jeek) {
 }
 
 void Hashtag::show_info() {
-  for (int i = 0; i < pointed_jeeks.size(); i++)
-    pointed_jeeks[i]->show_after_search();
+  for (auto pointed_jeek : pointed_jeeks) {
+    pointed_jeek->show_after_search();
+  }
 }
 
 std::string Hashtag::get_text() { return text; }
 
-void Hashtag::set_text(std::string content) { text = content; }
+void Hashtag::set_text(const std::string &content) { text = content; }
 
 std::vector<Jeek *> Hashtag::get_jeeks() { return pointed_jeeks; }

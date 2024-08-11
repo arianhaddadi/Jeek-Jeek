@@ -8,7 +8,7 @@
 
 class Hashtag {
 public:
-  void set_text(std::string content);
+  void set_text(const std::string &content);
   void add_jeek(Jeek &new_jeek);
   std::string get_text();
   void show_info();

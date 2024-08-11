@@ -24,8 +24,8 @@ public:
   User *get_author();
   void set_features(const std::string &jeek_text, const std::string &id,
                     User *jeek_author);
-  int get_like_number();
-  int get_rejeek_number();
+  int get_like_number() const;
+  int get_rejeek_number() const;
   std::string get_tags_formatted();
   std::string get_mentions_formatted();
 

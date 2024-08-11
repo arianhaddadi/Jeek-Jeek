@@ -47,7 +47,7 @@ $(BUILD_DIR)/Jeek.o: ../Phase1/Network.hpp ../Phase1/functions.hpp ../Phase1/Has
 $(BUILD_DIR)/Hashtag.o: ../Phase1/Network.hpp ../Phase1/functions.hpp ../Phase1/Hashtag.hpp ../Phase1/Jeek.hpp ../Phase1/Comment.hpp ../Phase1/User.hpp ../Phase1/Reply.hpp ../Phase1/Hashtag.cpp
 	$(CC) -c ../Phase1/Hashtag.cpp -o $(BUILD_DIR)/Hashtag.o
 
-$(BUILD_DIR)/Handlers.o: ../Phase1/Network.hpp ../Phase1/functions.hpp ../Phase1/Hashtag.hpp ../Phase1/Jeek.hpp ../Phase1/User.hpp server/Handlers.hpp server/Handlers.cpp
+$(BUILD_DIR)/Handlers.o: ../Phase1/Network.hpp ../Phase1/functions.hpp ../Phase1/Hashtag.hpp ../Phase1/Jeek.hpp ../Phase1/User.hpp server/handlers.hpp server/handlers.cpp
 	$(CC) -c server/Handlers.cpp -o $(BUILD_DIR)/Handlers.o
 
 server.out: $(BUILD_DIR)/Reply.o $(BUILD_DIR)/Network.o $(BUILD_DIR)/functions.o $(BUILD_DIR)/User.o $(BUILD_DIR)/Comment.o $(BUILD_DIR)/Jeek.o $(BUILD_DIR)/Hashtag.o $(BUILD_DIR)/response.o $(BUILD_DIR)/request.o $(BUILD_DIR)/utilities.o $(BUILD_DIR)/server.o $(BUILD_DIR)/route.o $(BUILD_DIR)/server_main.o $(BUILD_DIR)/Handlers.o

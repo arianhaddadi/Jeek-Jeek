@@ -8,9 +8,9 @@
 class Reply {
 public:
   std::string get_id();
-  void set_features(User *, std::string);
+  void set_features(User *replier, const std::string &reply_text);
   void show_full_info();
-  void add_reply(Reply *);
+  void add_reply(Reply *reply);
 
 private:
   User *author;

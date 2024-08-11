@@ -42,11 +42,11 @@ public:
   Response *callback(Request *req);
 };
 
-class SuccessfullLikeDislikeHandler : public RequestHandler {
+class SuccessfulLikeDislikeHandler : public RequestHandler {
   Network *network;
 
 public:
-  SuccessfullLikeDislikeHandler(Network *new_network);
+  SuccessfulLikeDislikeHandler(Network *new_network);
   Response *callback(Request *req);
 };
 

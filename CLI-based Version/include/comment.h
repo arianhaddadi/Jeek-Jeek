@@ -8,9 +8,10 @@
 
 class Comment {
 public:
-  void set_features(std::string, std::string, User *);
+  void set_features(const std::string &content, const std::string &id,
+                    User *comment_author);
   std::string get_id();
-  void add_reply(Reply *);
+  void add_reply(Reply *reply);
   void show_full_info();
   User *get_author();
 

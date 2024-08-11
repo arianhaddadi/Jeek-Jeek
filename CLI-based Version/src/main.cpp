@@ -6,17 +6,17 @@ int main() {
   Network network;
   std::string command;
   while (command != "quit") {
-    std::cout << "you need to signup/login to us the system" << std::endl
-         << "your command:";
+    std::cout << "You need to signup/login to the system. " << std::endl
+              << "Your command:";
     std::cin >> command;
     try {
       network.choose_action(command);
-    } catch (std::string exception) {
+    } catch (const std::string &exception) {
       if (exception == "logout") {
-        std::cout << "you got logged out" << std::endl;
+        std::cout << "You got logged out." << std::endl;
         continue;
       }
-      std::cout << "wrong command.PLease try again:" << std::endl;
+      std::cout << "Wrong command. Please try again:" << std::endl;
       continue;
     }
   }

@@ -1,4 +1,4 @@
-#include "Handlers.hpp"
+#include "handlers.hpp"
 
 LoginHandler::LoginHandler(Network *new_network) { network = new_network; }
 
@@ -13,8 +13,9 @@ Response *LoginHandler::callback(Request *req) {
         ->set_session_Id(std::to_string(random_number));
     res->setBody(
         insert_jeeks_to_home(network->user_exists(username, password)));
-  } else
+  } else {
     res->setBody(readFile("htmlFiles/loginerror.html"));
+  }
   res->setSessionId(std::to_string(random_number));
   return res;
 }
@@ -45,11 +46,12 @@ Response *SignupAttemptHandler::callback(Request *req) {
   std::string password = req->getBodyParam("password");
   res->setHeader("Content-Type", "text/html");
   if (username.size() != 0 && name.size() != 0 && password.size() != 0 &&
-      network->username_not_used(username)) {
+      network->username_is_not_used(username)) {
     network->add_user(username, password, name);
-    res->setBody(readFile("htmlFiles/Successsignup.html"));
-  } else
+    res->setBody(readFile("htmlFiles/successsignup.html"));
+  } else {
     res->setBody(readFile("htmlFiles/signuperror.html"));
+  }
   return res;
 }
 
@@ -59,14 +61,16 @@ Response *SearchHandler::callback(Request *req) {
   Response *res = new Response();
   std::string searched_content = req->getBodyParam("searched_content");
   res->setHeader("Content-Type", "text/html");
-  if (searched_content[0] == '@')
+  if (searched_content[0] == '@') {
     res->setBody(show_searched_username(network, searched_content));
-  else if (searched_content[0] == '#')
+  } else if (searched_content[0] == '#') {
     res->setBody(show_searched_hashtags(network, searched_content));
-  else
+  } else {
     res->setBody(readFile("htmlFiles/home.html"));
+  }
   return res;
 }
+
 JeekDetailHandler::JeekDetailHandler(Network *new_network) {
   network = new_network;
 }
@@ -79,22 +83,22 @@ Response *JeekDetailHandler::callback(Request *req) {
   return res;
 }
 
-SuccessfullLikeDislikeHandler::SuccessfullLikeDislikeHandler(
+SuccessfulLikeDislikeHandler::SuccessfulLikeDislikeHandler(
     Network *new_network) {
   network = new_network;
 }
 
-Response *SuccessfullLikeDislikeHandler::callback(Request *req) {
+Response *SuccessfulLikeDislikeHandler::callback(Request *req) {
   User *liker = network->find_user_by_sessionId(req->getSessionId());
   Response *res = new Response();
   std::string jeek_id = req->getBodyParam("details");
   jeek_id.erase(jeek_id.begin(), jeek_id.begin() + 13);
   if (liker->like_does_not_exist(find_jeek(jeek_id, *network)) == true) {
     liker->like(find_jeek(jeek_id, *network));
-    res->setBody(readFile("htmlFiles/Successlike.html"));
+    res->setBody(readFile("htmlFiles/successlike.html"));
   } else {
     liker->dislike(find_jeek(jeek_id, *network));
-    res->setBody(readFile("htmlFiles/Successfulldislike.html"));
+    res->setBody(readFile("htmlFiles/successdislike.html"));
   }
   res->setHeader("Content-Type", "text/html");
   return res;
@@ -109,7 +113,7 @@ Response *SuccessfulRejeekHandler::callback(Request *req) {
   jeek_id.erase(jeek_id.begin(), jeek_id.begin() + 7);
   network->set_user(network->find_user_by_sessionId(req->getSessionId()));
   network->add_rejeek(jeek_id);
-  res->setBody(readFile("htmlFiles/Successrejeek.html"));
+  res->setBody(readFile("htmlFiles/successrejeek.html"));
   res->setHeader("Content-Type", "text/html");
   return res;
 }

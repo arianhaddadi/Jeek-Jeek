@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+        background-color: lightblue;
+        background-image: url("1.jpg");
+        animation-name: load_animation;
+        animation-duration: 2s;
+    }
+
+    @keyframes load_animation {
+        from {
+            margin-top: 200px;
+        }
+        to {
+            margin-top: 60px;
+        }
+    }
+
+    @keyframes color_animation {
+        from {
+            color: red;
+        }
+        to {
+            color: blue;
+        }
+    }
+
+    p {
+        animation-name: color_animation;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+    }
+</style>
+<body>
+<p style="font-size : 100px ; text-align : center ">Jeek Jeek </p>
+<div style=" text-align : center ; margin-top : 100px ">
+    <form action="/login_page" method="post">
+        <button style="width:200px ; height:90px ; color:red" type="submit">
+            Login
+        </button>
+    </form>
+    <form action="/signup" method="post"><br>
+        <button style="width:200px ; height:90px;color:red" type="submit">
+            Signup
+        </button>
+    </form>
+</div>
+</body>
+</html>

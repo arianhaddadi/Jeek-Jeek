@@ -1,13 +1,12 @@
-#include "Handlers.hpp"
+#include "handlers.hpp"
 
 using namespace std;
 
 int main(int argc, char **argv) {
   Network *network = new Network();
-  add_jeeks_users(network);
   try {
     Server server(argc > 1 ? atoi(argv[1]) : 5000);
-    server.get("/", new ShowPage("htmlFiles/Jeek_Jeek.html"));
+    server.get("/", new ShowPage("htmlFiles/main.html"));
     server.get("/home", new HomepageHandler(network));
     server.get("/signup", new ShowPage("htmlFiles/signup.html"));
     server.get("/login_page", new ShowPage("htmlFiles/login.html"));
@@ -19,7 +18,7 @@ int main(int argc, char **argv) {
     server.post("/search", new SearchHandler(network));
     server.post("/jeek_details", new JeekDetailHandler(network));
     server.post("/like_dislike_successful",
-                new SuccessfullLikeDislikeHandler(network));
+                new SuccessfulLikeDislikeHandler(network));
     server.post("/rejeek_successful", new SuccessfulRejeekHandler(network));
     server.run();
   } catch (Server::Exception e) {

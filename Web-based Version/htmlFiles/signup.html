@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html>
 <style>
-   body {
-    background-image: url("1.jpg");
-    animation-name:load_animation;
-    animation-duration:2s;
-  }
-  div {
-    background-color: white ;
-    
-  }
-  @keyframes load_animation {
-    from {margin-top:400px;}
-    to   {margin-top:0px;}
-  }
-  @keyframes color_animation {
-    from {color:red; }
-      to {color:blue; }
-  }
-  a {
-    animation-name:color_animation;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-  }
+    body {
+        background-image: url("1.jpg");
+        animation-name: load_animation;
+        animation-duration: 2s;
+    }
+
+    div {
+        background-color: white;
+
+    }
+
+    @keyframes load_animation {
+        from {
+            margin-top: 400px;
+        }
+        to {
+            margin-top: 0px;
+        }
+    }
+
+    @keyframes color_animation {
+        from {
+            color: red;
+        }
+        to {
+            color: blue;
+        }
+    }
+
+    a {
+        animation-name: color_animation;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+    }
 </style>
-  <body>
-    <a href = "/" style = " margin-left:650px ; font-size:100px">Jeek Jeek</a>
-    <div style = " text-align : center ; margin-left:650px ; margin-top : 200px ; width: 400px; padding: 30px; border: 5px solid black; color:rgb(255, 0, 102);">
-      <form action="/signupAttempt" method="post">
-        <p style = "color:darkgreen ; font-size:40px ">Signup</p>
-        <input name="name" type="text" placeholder= "Name" > <br><br>
-        <input name="username" type="text" placeholder="Username" /><br><br>
-        <input name="password" type="password" placeholder="Password" /><br><br>
-        <button type="submit" >Signup</button>
-        <input type = "reset" value = "Reset" >
+<body>
+<a href="/" style=" margin-left:650px ; font-size:100px">Jeek Jeek</a>
+<div style=" text-align : center ; margin-left:650px ; margin-top : 200px ; width: 400px; padding: 30px; border: 5px solid black; color:rgb(255, 0, 102);">
+    <form action="/signupAttempt" method="post">
+        <p style="color:darkgreen ; font-size:40px ">Signup</p>
+        <input name="name" placeholder="Name" type="text"> <br><br>
+        <input name="username" placeholder="Username" type="text"/><br><br>
+        <input name="password" placeholder="Password" type="password"/><br><br>
+        <button type="submit">Signup</button>
+        <input type="reset" value="Reset">
 
-      </form>
-    </div>
+    </form>
+</div>
 
-  </body>
+</body>
 </html>
 
 

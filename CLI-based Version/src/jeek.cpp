@@ -1,6 +1,5 @@
 #include "jeek.h"
 #include "comment.h"
-#include "functions.h"
 #include "hashtag.h"
 #include "network.h"
 #include "user.h"
@@ -11,15 +10,18 @@
 void Jeek::show_full_info() {
   std::cout << author->get_display_name() << std::endl;
   std::cout << text << std::endl;
-  for (int i = 0; i < hashtags.size(); i++)
-    std::cout << "#" << hashtags[i]->get_text() << std::endl;
-  for (int i = 0; i < mentions.size(); i++)
-    std::cout << "@" << mentions[i]->get_username() << std::endl;
+  for (auto hashtag : hashtags) {
+    std::cout << "#" << hashtag->get_text() << std::endl;
+  }
+  for (auto mention : mentions) {
+    std::cout << "@" << mention->get_username() << std::endl;
+  }
   std::cout << "Likes " << like_number << std::endl
             << "Rejeeks " << rejeek_number << std::endl
             << "Comments:" << std::endl;
-  for (int i = 0; i < comments.size(); i++)
-    std::cout << comments[i]->get_id() << std::endl;
+  for (auto comment : comments) {
+    std::cout << comment->get_id() << std::endl;
+  }
 }
 
 void Jeek::set_features(const std::string &jeek_text, const std::string &id,
@@ -31,9 +33,7 @@ void Jeek::set_features(const std::string &jeek_text, const std::string &id,
   rejeek_number = 0;
 }
 
-void Jeek::add_comment(Comment *comment) {
-  comments.push_back(comment);
-}
+void Jeek::add_comment(Comment *comment) { comments.push_back(comment); }
 
 std::string Jeek::get_text() { return text; }
 
@@ -59,7 +59,7 @@ std::string Jeek::get_id() { return Id; }
 
 void Jeek::set_rejeek(User *rejeeker, Jeek *rejeeked_jeek) {
   if (rejeeked_jeek == nullptr) {
-    std::cout << "the jeek you want to rejeek doesn't exist" << std::endl;
+    std::cout << "the Jeek you want to rejeek doesn't exist" << std::endl;
     return;
   }
   text = "Rejeeked:" + rejeeked_jeek->get_text();
@@ -98,9 +98,9 @@ void Jeek::add_a_hashtag(const std::string &content, Network *network) {
   }
 }
 
-int Jeek::get_like_number() { return like_number; }
+int Jeek::get_like_number() const { return like_number; }
 
-int Jeek::get_rejeek_number() { return rejeek_number; }
+int Jeek::get_rejeek_number() const { return rejeek_number; }
 
 std::string Jeek::get_tags_formatted() {
   std::string formatted_tags;

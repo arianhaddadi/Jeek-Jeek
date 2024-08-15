@@ -7,13 +7,13 @@
 #include <string>
 #include <vector>
 
-std::vector<Jeek *> User::get_jeeks() { return jeeks; }
+std::vector<Jeek *> User::get_jeeks() const { return jeeks; }
 
-std::string User::get_display_name() { return display_name; }
+std::string User::get_display_name() const { return display_name; }
 
-std::string User::get_password() { return password; }
+std::string User::get_password() const { return password; }
 
-std::string User::get_username() { return username; }
+std::string User::get_username() const { return username; }
 
 std::vector<Reply *> User::get_replies() { return replies; }
 
@@ -25,8 +25,7 @@ void User::add_reply(Network *network) {
     std::cout << "Comment/reply was not found." << std::endl;
     return;
   }
-  auto *new_reply = new Reply();
-  new_reply->set_features(this, content);
+  auto *new_reply = new Reply(this, content);
   replies.push_back(new_reply);
   network->add_reply(new_reply);
   the_reply->add_reply(new_reply);
@@ -38,13 +37,12 @@ void User::add_comment(Network *network) {
   std::cin >> jeek_id >> content;
   Jeek *jeek = network->find_jeek(jeek_id);
   if (jeek == nullptr) {
-    std::cout << "The jeek you wanted to comment on doesn't exist."
+    std::cout << "The Jeek you wanted to comment on doesn't exist."
               << std::endl;
     return;
   }
-  auto *new_comment = new Comment();
-  new_comment->set_features(content, username + std::to_string(comments.size()),
-                            this);
+  auto *new_comment =
+      new Comment(content, username + std::to_string(comments.size()), this);
   network->add_comment(new_comment);
   comments.push_back(new_comment);
   jeek->add_comment(new_comment);
@@ -55,8 +53,8 @@ void User::add_comment(Network *network) {
 
 void User::add_jeek(Network *network) {
   std::string command, content;
-  Jeek *new_jeek = new Jeek();
-  new_jeek->set_features("", username + std::to_string(jeeks.size()), this);
+  const auto new_jeek =
+      new Jeek("", username + std::to_string(jeeks.size()), this);
   while (command != "publish" && command != "abort") {
     std::cin >> command;
     if (command == "text") {
@@ -101,25 +99,16 @@ void User::add_jeek(Network *network) {
 
 void User::set_session_Id(const std::string &id) { session_id = id; }
 
-void User::set_features(const std::string &userName,
-                        const std::string &displayName,
-                        const std::string &passWord) {
-  username = userName;
-  display_name = displayName;
-  password = passWord;
-  session_id = "";
-}
-
 void User::add_rejeeks(Jeek *new_jeek) { jeeks.push_back(new_jeek); }
 
-void User::show_jeeks() {
-  for (auto jeek : jeeks) {
+void User::show_jeeks() const {
+  for (const auto jeek : jeeks) {
     jeek->show_after_search();
   }
 }
 
-bool User::following_does_not_exist(User *user) {
-  for (auto following : followings) {
+bool User::following_does_not_exist(User *user) const {
+  for (const auto following : followings) {
     if (user->get_username() == following->get_username()) {
       return false;
     }
@@ -129,7 +118,7 @@ bool User::following_does_not_exist(User *user) {
 
 void User::follow(User *user) { followings.push_back(user); }
 
-int User::find_following_index(User *user) {
+int User::find_following_index(User *user) const {
   for (int i = 0; i < followings.size(); i++) {
     if (user->get_username() == followings[i]->get_username()) {
       return i;
@@ -142,8 +131,8 @@ void User::unfollow(User *user) {
   followings.erase(followings.begin() + find_following_index(user));
 }
 
-bool User::like_does_not_exist(Jeek *jeek) {
-  for (auto like : likes) {
+bool User::like_does_not_exist(Jeek *jeek) const {
+  for (const auto like : likes) {
     if (like->get_id() == jeek->get_id()) {
       return false;
     }
@@ -156,7 +145,7 @@ void User::like(Jeek *jeek) {
   likes.push_back(jeek);
 }
 
-int User::find_likes_index(Jeek *jeek) {
+int User::find_likes_index(Jeek *jeek) const {
   for (int i = 0; i < likes.size(); i++) {
     if (likes[i]->get_id() == jeek->get_id()) {
       return i;
@@ -174,11 +163,11 @@ void User::add_notifications(const std::string &notification) {
   notifications.push_back(notification);
 }
 
-std::vector<User *> User::get_followings() { return followings; }
+std::vector<User *> User::get_followings() const { return followings; }
 
 void User::add_follower(User *user) { followers.push_back(user); }
 
-int User::find_follower_index(User *user) {
+int User::find_follower_index(User *user) const {
   for (int i = 0; i < followers.size(); i++) {
     if (followers[i]->get_username() == user->get_username()) {
       return i;
@@ -191,9 +180,9 @@ void User::delete_follower(User *user) {
   followers.erase(followers.begin() + find_follower_index(user));
 }
 
-void User::add_notifications_for_followers_after_jeek() {
-  for (auto follower : followers) {
-    follower->add_notifications(this->get_username() + " jeeked " +
+void User::add_notifications_for_followers_after_jeek() const {
+  for (const auto follower : followers) {
+    follower->add_notifications(get_username() + " jeeked " +
                                 (jeeks[jeeks.size() - 1]->get_id()));
   }
 }

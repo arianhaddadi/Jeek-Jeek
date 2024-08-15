@@ -9,15 +9,21 @@ int main() {
     std::cout << "You need to signup/login to the system. " << std::endl
               << "Your command:";
     std::cin >> command;
-    try {
-      network.choose_action(command);
-    } catch (const std::string &exception) {
-      if (exception == "logout") {
-        std::cout << "You got logged out." << std::endl;
-        continue;
-      }
+    switch (command) {
+    case "signup":
+      network.signup();
+      break;
+    case "login":
+      network.login();
+      break;
+    case "logout":
+      std::cout << "You got logged out." << std::endl;
+      break;
+    case "quit":
+      std::cout << "Goodbye!" << std::endl;
+      break;
+    default:
       std::cout << "Wrong command. Please try again:" << std::endl;
-      continue;
     }
   }
   return 0;

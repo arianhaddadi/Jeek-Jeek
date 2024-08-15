@@ -2,17 +2,16 @@
 #define HASHTAG_H
 
 #include "common.h"
-#include <iostream>
 #include <string>
 #include <vector>
 
 class Hashtag {
 public:
-  void set_text(const std::string &content);
+  explicit Hashtag(const std::string &content) : text(content) {}
   void add_jeek(Jeek &new_jeek);
-  std::string get_text();
-  void show_info();
-  std::vector<Jeek *> get_jeeks();
+  std::string get_text() const;
+  void show_info() const;
+  std::vector<Jeek *> get_jeeks() const;
 
 private:
   std::vector<Jeek *> pointed_jeeks;
